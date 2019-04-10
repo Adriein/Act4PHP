@@ -1,11 +1,9 @@
 <?php
-
-
+require_once("../DAO/DBConnection.php");
+class NotasDAO{
 
   function login($dni, $apellido){
-    require_once("../variables.php");
-
-    $conection = mysqli_connect($host, $user, $pass, $dbName) or die("Error de conexion a la base de datos");
+    $conection = new DBConnection();
     $query = "select * from usuario where dni='".$dni."'";
     $result = mysqli_query($conection, $query);
     $numRows = mysqli_num_rows($result);
@@ -27,7 +25,7 @@
       }
     }
 
-    mysqli_close($conection);
+    $conection->disconect();
   }
 
   function redirect($page, $message){
@@ -73,11 +71,31 @@
 
     }else{
       $result = false;
-      
+
     }
 
     mysqli_close($conection);
     return $result;
+  }
+
+  function getAllUsers(){
+    require_once("../variables.php");
+
+    $conection = mysqli_connect($host, $user, $pass, $dbName) or die("Error de conexion a la base de datos");
+    //$conection = mysqli_connect('localhost', 'root', 'fihoca', 'academia') or die("Error de conexion a la base de datos");
+    $query = "select * from usuario";
+    $result = mysqli_query($conection, $query);
+    $numRows = mysqli_num_rows($result);
+
+    while($fila = mysqli_fetch_array($result)){
+      extract($fila);
+      if($tipo_usuario != 0){
+          $allUsers[] = array($dni => $apellido);
+      }
+
+    }
+    mysqli_close($conection);
+    return $allUsers;
   }
 
   function deleteUser(){
@@ -87,15 +105,6 @@
   function updateUser(){
 
   }
-
-  function selectUser(){
-    require_once("../variables.php");
-
-    $conection = mysqli_connect($host, $user, $pass, $dbName) or die("Error de conexion a la base de datos");
-    $query = "select * from user";
-    $result = mysqli_query($conection, $query);
-    mysqli_close($conection);
-    return $result;
-  }
+}
 
 ?>

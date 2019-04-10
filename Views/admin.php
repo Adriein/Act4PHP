@@ -15,12 +15,21 @@
           <input type="submit" name="submit" value="Register"><br>
       </form>
       <br><br>
+      <h3>Crear Asignatura: </h3>
       <form action="../Controller/controller.php" method="post">
           Nombre Asignatura: <br>
           <input type="text" name="nombre"><br>
           <input type="submit" name="submit" value="Crear"><br>
       </form>
+      <br><br>
+      <h3>Consulta Usuario: </h3>
+      Usuarios: <br>
+      <select name="">
+        <?php<option value=""></option>?>
+      </select>
 
       <p><?php  echo isset($_GET['message'])? $_GET['message'] : '' ?></p>
+
+
   </body>
 </html>
