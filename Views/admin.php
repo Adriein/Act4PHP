@@ -9,8 +9,18 @@
       <form action="../Controller/controller.php" method="post">
           DNI: <br>
           <input type="text" name="dni"><br>
+          Apellido: <br>
           <input type="text" name="lastName"><br>
+          <input type="checkbox" name="admin" value="admin"> Admin <br>
           <input type="submit" name="submit" value="Register"><br>
       </form>
+      <br><br>
+      <form action="../Controller/controller.php" method="post">
+          Nombre Asignatura: <br>
+          <input type="text" name="nombre"><br>
+          <input type="submit" name="submit" value="Crear"><br>
+      </form>
+
+      <p><?php  echo isset($_GET['message'])? $_GET['message'] : '' ?></p>
   </body>
 </html>

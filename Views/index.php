@@ -12,6 +12,6 @@
       <input type="text" name="lastName"> <br>
       <input type="submit" name="submit" value="Login">
     </form>
-
+    <p><?php echo isset($_GET['message'])? $_GET['message'] : '' ?></p>
   </body>
 </html>
