@@ -25,7 +25,16 @@
       <h3>Consulta Usuario: </h3>
       Usuarios: <br>
       <select name="">
-        <?php<option value=""></option>?>
+        <?php
+        require_once("../DAO/NotasDAO.php");
+        $notasDAO = new NotasDAO;
+        $resultado = $notasDAO->getAllUsers();
+        foreach ($resultado as $clave => $valor) {
+          echo "<option value=''>".$valor."</option>";
+        }
+
+
+        ?>
       </select>
 
       <p><?php  echo isset($_GET['message'])? $_GET['message'] : '' ?></p>
