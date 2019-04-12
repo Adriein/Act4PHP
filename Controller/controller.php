@@ -1,6 +1,5 @@
 <?php
   require_once("../DAO/NotasDAO.php");
-  session_start();
 
   $dni = $_POST['dni'];
   $pass = $_POST['lastName'];

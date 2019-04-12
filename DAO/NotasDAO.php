@@ -82,7 +82,7 @@ class NotasDAO{
 
     foreach ($conection->getRows() as $value) {
       if($value['tipo_usuario'] != 0){
-        $allUsers[] = array($value['dni'] => $value['apellido']);
+        $allUsers[] = array($value['apellido']);
 
       }
     }
