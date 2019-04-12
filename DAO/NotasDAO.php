@@ -5,17 +5,15 @@ class NotasDAO{
   function login($dni, $apellido){
     $conection = new DBConnection();
     $query = "select * from usuario where dni='".$dni."'";
-    $result = mysqli_query($conection, $query);
-    $numRows = mysqli_num_rows($result);
+    $conection->executeQuery($query);
 
-    if($numRows == 0){
+    if($conection->getNumRows() == 0){
       return 'not found';
 
     }else{
-      while($fila = mysqli_fetch_array($result)){
-        extract($fila);
-
-        if($tipo_usuario == 0){
+      $result = $conection->getRows();
+      foreach ($result as $value) {
+        if($value['tipo_usuario'] == 0){
           return 'admin';
 
         }else{

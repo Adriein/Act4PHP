@@ -11,8 +11,8 @@ class DBConnection{
   private $numRows;
 
   public function __construct(){
-    $this->connection = new mysqli(self::$host, self::$user, self::$pass, self::$dbName) or die("Error de conexion a la base de datos");
-    return connection;
+    $this->connection = new mysqli(self::$host, self::$user, self::$pass, self::$dbName);
+
   }
 
   public function disconect(){
@@ -23,6 +23,21 @@ class DBConnection{
   public function executeQuery($sqlSentence){
     $this->resultado = $this->connection->query($sqlSentence);
     $this->numRows = $this->resultado->num_rows;
+  }
+
+  public function getNumRows(){
+    return $this->numRows;
+  }
+
+  public function getRows(){
+    $row = array();
+
+    for ($i=0; $i < $this->numRows; $i++) {
+      $row[] = $this->resultado->fetch_assoc();
+
+    }
+
+    return $row;
   }
 }
 ?>
