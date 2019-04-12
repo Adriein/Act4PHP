@@ -46,53 +46,48 @@ class NotasDAO{
   }
 
   function createUser($dni, $apellido, $tipo_usuario){
-    require_once("../variables.php");
 
-    $conection = mysqli_connect($host, $user, $pass, $dbName) or die("Error de conexion a la base de datos");
+    $conection = new DBConnection();
     $query = "insert into usuario(dni, apellido, tipo_usuario) values ('".$dni."', '".$apellido."', '".$tipo_usuario."')";
-    $result = mysqli_query($conection, $query);
-    mysqli_close($conection);
+    $conection->executeQuery($query);
+
+    $conection->disconect();
     return $result;
   }
 
   function createSubject($subjectName){
-    require_once("../variables.php");
 
-    $conection = mysqli_connect($host, $user, $pass, $dbName) or die("Error de conexion a la base de datos");
+    $conection = new DBConnection();
     $query = "select * from asignatura where nombre='".$subjectName."'";
-    $result = mysqli_query($conection, $query);
-    $numRows = mysqli_num_rows($result);
+    $conection->executeQuery($query);
 
-    if($numRows == 0){
+    if($conection->getNumRows() == 0){
       $query = "insert into asignatura(nombre) values ('".$subjectName."')";
-      $result = mysqli_query($conection, $query);
+      $conection->executeQuery($query);
 
     }else{
       $result = false;
 
     }
 
-    mysqli_close($conection);
+    $conection->disconect();
     return $result;
   }
 
   function getAllUsers(){
-    require_once("../variables.php");
 
-    $conection = mysqli_connect($host, $user, $pass, $dbName) or die("Error de conexion a la base de datos");
-    //$conection = mysqli_connect('localhost', 'root', 'fihoca', 'academia') or die("Error de conexion a la base de datos");
+    $conection = new DBConnection();
     $query = "select * from usuario";
-    $result = mysqli_query($conection, $query);
-    $numRows = mysqli_num_rows($result);
+    $conection->executeQuery($query);
 
-    while($fila = mysqli_fetch_array($result)){
-      extract($fila);
-      if($tipo_usuario != 0){
-          $allUsers[] = array($dni => $apellido);
+    foreach ($conection->getRows() as $value) {
+      if($value['tipo_usuario'] != 0){
+        $allUsers[] = array($value['dni'] => $value['apellido']);
+
       }
-
     }
-    mysqli_close($conection);
+
+    $conection->disconect();
     return $allUsers;
   }
 
