@@ -1,17 +1,18 @@
 <?php
 class DBConnection{
 
-  private static $host = '127.0.0.1';
+  private static $host = '127.0.0.1:3307';
   private static $user = 'root';
-  private static $pass = 'fihoca';
+  private static $pass = '';
   private static $dbName = 'academia';
+  private static $port = '3307';
 
   private $connection;
   private $resultado;
   private $numRows;
 
   public function __construct(){
-    $this->connection = new mysqli(self::$host, self::$user, self::$pass, self::$dbName);
+    $this->connection = new mysqli(self::$host.' : '.self::$port, self::$user, self::$pass, self::$dbName);
 
   }
 

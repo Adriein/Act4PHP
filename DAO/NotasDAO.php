@@ -36,23 +36,29 @@ class NotasDAO{
 
     }
     if($page == 'not found'){
-      header('Location: ../Views/index.php?message='.$message);
+      header('Location: ../Views/login.php?message='.$message);
 
     }
-    if($page == 'index'){
-      header('Location: ../Views/index.php?message='.$message);
+    if($page == 'login'){
+      header('Location: ../Views/login.php?message='.$message);
 
     }
   }
 
   function createUser($dni, $apellido, $tipo_usuario){
-
     $conection = new DBConnection();
-    $query = "insert into usuario(dni, apellido, tipo_usuario) values ('".$dni."', '".$apellido."', '".$tipo_usuario."')";
-    $conection->executeQuery($query);
+
+    if($this->checkIfUserExist($dni, $tipo_usuario)){
+      $query = "insert into usuario(dni, apellido, tipo_usuario) values ('".$dni."', '".$apellido."', '".$tipo_usuario."')";
+      $conection->executeQuery($query);
+      return true;
+
+    }else{
+      return false;
+
+    }
 
     $conection->disconect();
-    return $result;
   }
 
   function createSubject($subjectName){
@@ -80,9 +86,9 @@ class NotasDAO{
     $query = "select * from usuario";
     $conection->executeQuery($query);
 
-    foreach ($conection->getRows() as $value) {
-      if($value['tipo_usuario'] != 0){
-        $allUsers[] = array($value['apellido']);
+    foreach ($conection->getRows() as $user) {
+      if($user['tipo_usuario'] != 0){
+        $allUsers[] = array($user['apellido']);
 
       }
     }
@@ -97,6 +103,22 @@ class NotasDAO{
 
   function updateUser(){
 
+  }
+
+  function checkIfUserExist($dni,$tipo_usuario){
+    $conection = new DBConnection();
+    $query = "select * from usuario";
+    $conection->executeQuery($query);
+    $createUser = true;
+
+    foreach ($conection->getRows() as $user) {
+      if($user['dni'] == $dni && $user['tipo_usuario'] == $tipo_usuario){
+        $createUser = false;
+        break;
+      }
+    }
+    $conection->disconect();
+    return $createUser;
   }
 }
 
