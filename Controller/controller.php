@@ -32,7 +32,7 @@ class Controller{
 
   public function register($dni, $pass, $tipoUsuario){
 
-    if($this->dni != '' && $this->pass != ''){
+    if($dni != '' && $pass != ''){
       if($tipoUsuario == 0){
         $insert = $this->notasDAO->createUser($dni, $pass, $tipoUsuario);
 
@@ -52,7 +52,7 @@ class Controller{
 
         }else{
           $this->notasDAO->redirect("admin", "Usuario registrado correctamente");
-          $this->notasDAO->getAllUsers();
+
         }
       }
     }else{
@@ -73,7 +73,6 @@ class Controller{
   }
 
   public function setSelect(){
-    $this->notasDAO = new NotasDAO();
     return $this->notasDAO->getAllUsers();
   }
   //echo var_dump($_POST);

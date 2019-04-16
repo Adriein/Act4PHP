@@ -1,19 +1,22 @@
 <?php
-  if(isset($_POST['submit']) == 'Register'){
+require_once("../Controller/controller.php");
+  if(isset($_POST['submit'])){
     $controller = new Controller();
-    if(isset($_POST['admin'])){
-      $controller->register($_POST['dni'],$_POST['lastName'],0);
+
+    if($_POST['submit'] == 'Register'){
+      if(isset($_POST['admin'])){
+        $controller->register($_POST['dni'],$_POST['lastName'],0);
+
+      }else{
+        $controller->register($_POST['dni'],$_POST['lastName'],1);
+
+      }
 
     }else{
-      $controller->register($_POST['dni'],$_POST['lastName'],1);
+      $controller->createSubject($_POST['nombre']);
 
     }
   }
-  if(isset($_POST['submit']) == 'Crear'){
-    $controller = new Controller();
-    $controller->createSubject($_POST['nombre']);
-  }
-
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +27,7 @@
   </head>
   <body>
       <h3>Alta Usuario: </h3>
-      <form action="" method="post">
+      <form action="admin.php" method="post">
           DNI: <br>
           <input type="text" name="dni"><br>
           Apellido: <br>
@@ -34,7 +37,7 @@
       </form>
       <br><br>
       <h3>Crear Asignatura: </h3>
-      <form action="" method="post">
+      <form action="admin.php" method="post">
           Nombre Asignatura: <br>
           <input type="text" name="nombre"><br>
           <input type="submit" name="submit" value="Crear"><br>
@@ -43,11 +46,12 @@
       <h3>Consulta Usuario: </h3>
       Usuarios: <br>
       <select name="">
+        <option value=''></option>
         <?php
         require_once("../Controller/controller.php");
         $controller = new Controller();
         $resultado = $controller->setSelect();
-        foreach ($resultado as $clave => $valor) {
+        foreach ($resultado as $valor) {
           echo "<option value=''>".$valor."</option>";
         }
 

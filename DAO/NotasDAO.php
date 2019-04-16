@@ -70,7 +70,8 @@ class NotasDAO{
     if($conection->getNumRows() == 0){
       $query = "insert into asignatura(nombre) values ('".$subjectName."')";
       $conection->executeQuery($query);
-
+      $result = true;
+      
     }else{
       $result = false;
 
@@ -88,7 +89,7 @@ class NotasDAO{
 
     foreach ($conection->getRows() as $user) {
       if($user['tipo_usuario'] != 0){
-        $allUsers[] = array($user['apellido']);
+        $allUsers[] = $user['apellido'];
 
       }
     }
