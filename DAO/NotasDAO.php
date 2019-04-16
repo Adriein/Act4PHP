@@ -1,5 +1,6 @@
 <?php
 require_once("../DAO/DBConnection.php");
+require_once("../Model/Alumno.php");
 class NotasDAO{
 
   function login($dni, $apellido){
@@ -71,7 +72,7 @@ class NotasDAO{
       $query = "insert into asignatura(nombre) values ('".$subjectName."')";
       $conection->executeQuery($query);
       $result = true;
-      
+
     }else{
       $result = false;
 
@@ -89,7 +90,8 @@ class NotasDAO{
 
     foreach ($conection->getRows() as $user) {
       if($user['tipo_usuario'] != 0){
-        $allUsers[] = $user['apellido'];
+        $alumno = new Alumno($user['dni'],$user['apellido']);
+        $allUsers[] = $alumno;
 
       }
     }
@@ -98,12 +100,30 @@ class NotasDAO{
     return $allUsers;
   }
 
-  function deleteUser(){
+  function deleteUser($user){
+    $conection = new DBConnection();
+    $query = "delete from usuario where dni='".$user."'";
+    $conection->executeQuery($query);
 
+    $conection->disconect();
+
+    return true;
   }
 
-  function updateUser(){
+  function updateUser($user){
+    $conection = new DBConnection();
+    $query = "update usuario set apellido='".$user."'where dni='".$user."'";
+    $conection->executeQuery($query);
 
+    $query = "select * from usuario where apellido=".$user->getLastName();
+    $conection->executeQuery($query);
+
+    if($conection->getRows() == 0){
+      return false;
+
+    }else{
+      return true;
+    }
   }
 
   function checkIfUserExist($dni,$tipo_usuario){

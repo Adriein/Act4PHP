@@ -12,8 +12,17 @@ require_once("../Controller/controller.php");
 
       }
 
-    }else{
+    }
+    if($_POST['submit'] == 'Crear'){
       $controller->createSubject($_POST['nombre']);
+
+    }
+    if($_POST['submit'] == 'Modificar'){
+      $controller->updateUser($_POST['alumnSelected']);
+
+    }
+    if($_POST['submit'] == 'Eliminar'){
+      $controller->deleteUser($_POST['alumnSelected']);
 
     }
   }
@@ -21,6 +30,16 @@ require_once("../Controller/controller.php");
 
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
   <head>
     <meta charset="utf-8">
     <title></title>
@@ -45,19 +64,31 @@ require_once("../Controller/controller.php");
       <br><br>
       <h3>Consulta Usuario: </h3>
       Usuarios: <br>
-      <select name="">
-        <option value=''></option>
-        <?php
-        require_once("../Controller/controller.php");
-        $controller = new Controller();
-        $resultado = $controller->setSelect();
-        foreach ($resultado as $valor) {
-          echo "<option value=''>".$valor."</option>";
-        }
+      <form action="admin.php" method="post">
+        <!--<select name="alumnSelected">
+          <option value=""></option>-->
+          <table>
+            <tr>
+              <th>Alumno</th>
+              <th>Asignatura</th>
+              <th>Nota</th>
+            </tr>
+          <?php
+          require_once("../Controller/controller.php");
+          $controller = new Controller();
+          $resultado = $controller->setSelect();
+          foreach ($resultado as $alumno) {
+            //echo "<option value=".$alumno->getDni().">".$alumno->getLastName()."</option>";
+            echo "<tr><td contenteditable='true'>".$alumno->getLastName()."</td></tr>";
+          }
 
 
-        ?>
-      </select>
+          ?>
+          </table>
+        <!--</select> <br>
+        <input type="submit" name="submit" value="Modificar"><br>
+        <input type="submit" name="submit" value="Eliminar"><br>-->
+      </form>
 
       <p><?php  echo isset($_GET['message'])? $_GET['message'] : '' ?></p>
 

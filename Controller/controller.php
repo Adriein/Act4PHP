@@ -75,6 +75,28 @@ class Controller{
   public function setSelect(){
     return $this->notasDAO->getAllUsers();
   }
+
+  public function updateUser($user){
+    $update = $this->notasDAO->updateUser($user);
+
+    if($update == false){
+      $this->notasDAO->redirect("admin","Error modificando el alumno");
+
+    }else{
+      $this->notasDAO->redirect("admin","Alumno modificado correctamente");
+    }
+  }
+
+  public function deleteUser($user){
+    $delete = $this->notasDAO->deleteUser($user);
+
+    if($delete == false){
+      $this->notasDAO->redirect("admin","Error borrando el alumno");
+
+    }else{
+      $this->notasDAO->redirect("admin","Alumno borrando correctamente");
+    }
+  }
   //echo var_dump($_POST);
 
 
