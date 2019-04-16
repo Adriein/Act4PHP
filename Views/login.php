@@ -1,11 +1,3 @@
-<?php
-  require_once("../Controller/controller.php");
-  $controller = new Controller();
-  if(isset($_POST['submit']) == 'Login'){
-    $controller->submit($_POST['dni'],$_POST['lastName']);
-
-  }
-?>
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
   <head>
@@ -13,7 +5,7 @@
     <title></title>
   </head>
   <body>
-    <form action="index.php" method="post">
+    <form action="../Controller/controller.php" method="post">
       DNI: <br>
       <input type="text" name="dni"> <br>
       Apellido: <br>

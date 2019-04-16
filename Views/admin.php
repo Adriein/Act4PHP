@@ -1,3 +1,21 @@
+<?php
+  if(isset($_POST['submit']) == 'Register'){
+    $controller = new Controller();
+    if(isset($_POST['admin'])){
+      $controller->register($_POST['dni'],$_POST['lastName'],0);
+
+    }else{
+      $controller->register($_POST['dni'],$_POST['lastName'],1);
+
+    }
+  }
+  if(isset($_POST['submit']) == 'Crear'){
+    $controller = new Controller();
+    $controller->createSubject($_POST['nombre']);
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
   <head>
@@ -6,7 +24,7 @@
   </head>
   <body>
       <h3>Alta Usuario: </h3>
-      <form action="../Controller/controller.php" method="post">
+      <form action="" method="post">
           DNI: <br>
           <input type="text" name="dni"><br>
           Apellido: <br>
@@ -16,7 +34,7 @@
       </form>
       <br><br>
       <h3>Crear Asignatura: </h3>
-      <form action="../Controller/controller.php" method="post">
+      <form action="" method="post">
           Nombre Asignatura: <br>
           <input type="text" name="nombre"><br>
           <input type="submit" name="submit" value="Crear"><br>
@@ -26,9 +44,9 @@
       Usuarios: <br>
       <select name="">
         <?php
-        require_once("../DAO/NotasDAO.php");
-        $notasDAO = new NotasDAO;
-        $resultado = $notasDAO->getAllUsers();
+        require_once("../Controller/controller.php");
+        $controller = new Controller();
+        $resultado = $controller->setSelect();
         foreach ($resultado as $clave => $valor) {
           echo "<option value=''>".$valor."</option>";
         }
