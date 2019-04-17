@@ -60,29 +60,10 @@ class Controller{
     }
   }
 
-  public function createSubject($subjectName){
-    $insert = $this->notasDAO->createSubject($subjectName);
+  public function updateUser($user, $dni, $lastName, $tipoUsuario){
+    $update = $this->notasDAO->updateUser($user, $dni, $lastName, $tipoUsuario);
 
-    if($insert == false){
-      $this->notasDAO->redirect("admin", "Error, la asignatura ya existe");
-
-    }else{
-      $this->notasDAO->redirect("admin", "Asignatura creada correctamente");
-
-    }
-  }
-
-  public function setSelect(){
-    return $this->notasDAO->getAllUsers();
-  }
-
-  public function updateUser($user){
-    $update = $this->notasDAO->updateUser($user);
-
-    if($update == false){
-      $this->notasDAO->redirect("admin","Error modificando el alumno");
-
-    }else{
+    if($update){
       $this->notasDAO->redirect("admin","Alumno modificado correctamente");
     }
   }
@@ -97,6 +78,57 @@ class Controller{
       $this->notasDAO->redirect("admin","Alumno borrando correctamente");
     }
   }
+
+  public function createSubject($subjectName){
+    $insert = $this->notasDAO->createSubject($subjectName);
+
+    if($insert == false){
+      $this->notasDAO->redirect("admin", "Error, la asignatura ya existe");
+
+    }else{
+      $this->notasDAO->redirect("admin", "Asignatura creada correctamente");
+
+    }
+  }
+
+  public function updateSubject($asignatura, $subjectName){
+    $update = $this->notasDAO->updateSubject($asignatura, $subjectName);
+    if($update == false){
+      $this->notasDAO->redirect("admin", "Error no puedes dejar campos vacios");
+    }else{
+      $this->notasDAO->redirect("admin", "Asignatura modificada correctamente");
+    }
+
+  }
+
+  public function getSubject($alumno){
+    return $this->notasDAO->getSubject($alumno);
+
+  }
+
+  public function getAllSubjects(){
+    return $this->notasDAO->getAllSubjects();
+  }
+
+  public function setGrade($alumno, $asignatura ,$nota){
+    $insert = $this->notasDAO->setGrade($alumno, $asignatura, $nota);
+    if($insert == false){
+        $this->notasDAO->redirect("admin", "Error al introducir la nota");
+
+    }else{
+        $this->notasDAO->redirect("admin", "Nota agregada correctamente");
+
+    }
+
+  }
+
+
+
+  public function setSelect(){
+    return $this->notasDAO->getAllUsers();
+  }
+
+
   //echo var_dump($_POST);
 
 

@@ -20,6 +20,6 @@ CREATE TABLE nota(
     asignatura int,
     nota int,
     PRIMARY KEY (alumno,asignatura),
-    FOREIGN KEY (alumno) REFERENCES usuario(dni),
-    FOREIGN KEY (asignatura) REFERENCES asignatura(identificador)
+    FOREIGN KEY (alumno) REFERENCES usuario(dni) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (asignatura) REFERENCES asignatura(identificador) ON UPDATE CASCADE ON DELETE CASCADE
 );
