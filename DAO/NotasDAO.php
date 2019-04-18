@@ -2,6 +2,7 @@
 require_once("../DAO/DBConnection.php");
 require_once("../Model/Alumno.php");
 require_once("../Model/Asignatura.php");
+require_once("../Model/Nota.php");
 class NotasDAO{
 
   function login($dni, $apellido){
@@ -38,11 +39,11 @@ class NotasDAO{
 
     }
     if($page == 'not found'){
-      header('Location: ../Views/login.php?message='.$message);
+      header('Location: ../Views/index.php?message='.$message);
 
     }
-    if($page == 'login'){
-      header('Location: ../Views/login.php?message='.$message);
+    if($page == 'index'){
+      header('Location: ../Views/index.php?message='.$message);
 
     }
   }
@@ -64,7 +65,6 @@ class NotasDAO{
   }
 
   function createSubject($subjectName){
-
     $conection = new DBConnection();
     $query = "select * from asignatura where nombre='".$subjectName."'";
     $conection->executeQuery($query);
@@ -95,15 +95,28 @@ class NotasDAO{
     }
   }
 
+  function deleteSubject($asignatura){
+    $conection = new DBConnection();
+    $query = "delete from asignatura where identificador='".$asignatura."'";
+    $conection->executeQuery($query);
+
+    $query = "select * from asignatura where identificador='".$asignatura."'";
+    $conection->executeQuery($query);
+    $conection->disconect();
+
+    $delete = $conection->getNumRows() == 0? true : false;
+    return $delete;
+  }
+
   function getSubject($alumno){
     $conection = new DBConnection();
-    $query = "select asignatura.nombre from nota
+    $query = "select usuario.apellido, asignatura.nombre, nota.nota from nota
                   inner join usuario on nota.alumno = usuario.dni inner join asignatura on nota.asignatura = asignatura.identificador where nota.alumno ='".$alumno."'";
     $conection->executeQuery($query);
 
     foreach ($conection->getRows() as $result) {
-      $asignatura = new Asignatura($result['identificador'],$result['nombre']);
-      $allSubjects[] = $asignatura;
+      $nota = new Nota($result['apellido'],$result['nombre'],$result['nota']);
+      $allSubjects[] = $nota;
     }
     $conection->disconect();
     return $allSubjects;
@@ -148,10 +161,14 @@ class NotasDAO{
     $conection = new DBConnection();
     $query = "delete from usuario where dni='".$user."'";
     $conection->executeQuery($query);
-
     $conection->disconect();
 
-    return true;
+    if($this->checkIfUserExist($dni,1)){
+      return true;
+
+    }else{
+      return false;
+    }
   }
 
   function updateUser($user, $dni, $lastName, $tipoUsuario){
@@ -204,6 +221,39 @@ class NotasDAO{
     }
 
     $conection->disconect();
+  }
+
+  function updateGrade($alumno, $asignatura, $nota){
+    $conection = new DBConnection();
+    $query = "select * from nota where alumno='".$alumno."' and asignatura='".$asignatura."'";
+    $conection->executeQuery($query);
+
+    if($conection->getNumRows() == 0){
+      return false;
+
+    }else{
+      $query = "update nota set nota='".$nota."' where alumno='".$alumno."' and asignatura='".$asignatura."'";
+      $conection->executeQuery($query);
+      $conection->disconect();
+      return true;
+    }
+  }
+
+  function deleteGrade($alumno, $asignatura){
+    $conection = new DBConnection();
+    $query = "select * from nota where alumno='".$alumno."' and asignatura='".$asignatura."'";
+    $conection->executeQuery($query);
+
+    if($conection->getNumRows() == 0){
+      $conection->disconect();
+      return false;
+
+    }else{
+      $query = "delete from nota where alumno='".$alumno."' and asignatura='".$asignatura."'";
+      $conection->executeQuery($query);
+      $conection->disconect();
+      return true;
+    }
   }
 }
 

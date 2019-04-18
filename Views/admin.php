@@ -41,23 +41,49 @@ require_once("../Controller/controller.php");
       $controller->updateSubject($_POST['subjectSelected'], $_POST['subjectName']);
 
     }
+    if($_POST['submit'] == 'Modificar Nota'){
+      $controller->updateGrade($_POST['alumnSelected'], $_POST['subjectSelected'], $_POST['grade']);
+
+    }
+    if($_POST['submit'] == 'Eliminar Usuario'){
+      $controller->deleteUser($_POST['alumnSelected']);
+
+    }
+    if($_POST['submit'] == 'Eliminar Asignatura'){
+      $controller->deleteSubject($_POST['subjectSelected']);
+
+    }
+    if($_POST['submit'] == 'Eliminar Nota'){
+      $controller->deleteGrade($_POST['alumnSelected'], $_POST['subjectSelected']);
+
+    }
+    if($_POST['submit'] == 'Mostrar Notas'){
+      echo"<table>
+        <tr>
+          <th>Alumno</th>
+          <th>Asignatura</th>
+          <th>Nota</th>
+        </tr>";
+        $result = $controller->getSubject($_POST['alumnSelected']);
+        foreach ($result as $value) {
+          echo"<tr><td>".$value->getAlumno()."</td><td>".$value->getAsignatura()."</td><td>".$value->getNota()."</td></tr>";
+        }
+
+      echo "</table>";
+
+    }
+    if($_POST['submit'] == 'Cerrar Sesion'){
+      $controller->disconect();
+
+    }
   }
 ?>
 
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 5px;
-  text-align: left;
-}
-</style>
   <head>
     <meta charset="utf-8">
+     <link rel="stylesheet" type="text/css" href="css/main.css">
     <title></title>
   </head>
   <body>
@@ -139,8 +165,98 @@ th, td {
           <input type='text' name='subjectName'><br>
           <input type='submit' name='submit' value='Modificar Asignatura'><br>
         </form>";
+        echo"<h3>Modificar Nota: </h3>
+        <form action='admin.php' method='post'>
+          Alumno:
+          <select name='alumnSelected'>
+            <option value=''></option>";
+              $resultado = $controller->setSelect();
+              foreach ($resultado as $alumno){
+                echo "<option value=".$alumno->getDni().">".$alumno->getLastName()."</option>";
+              }
+
+        echo "</select> <br>
+          Asignatura:
+          <select name='subjectSelected'>
+            <option value=''></option>";
+              $asignaturas = $controller->getAllSubjects();
+              foreach ($asignaturas as $asignatura){
+                echo "<option value=".$asignatura->getPK().">".$asignatura->getNombre()."</option>";
+
+              }
+          echo "</select> <br>
+          Nota:
+          <input type='text' name='grade'><br>
+          <input type='submit' name='submit' value='Modificar Nota'><br>
+        </form>";
+        echo"<h3>Eliminar Usuario: </h3>
+        <form action='admin.php' method='post'>
+          Usuario:
+          <select name='alumnSelected'>
+            <option value=''></option>";
+              $resultado = $controller->setSelect();
+              foreach ($resultado as $alumno){
+                echo "<option value=".$alumno->getDni().">".$alumno->getLastName()."</option>";
+              }
+
+        echo "</select> <br>
+          <input type='submit' name='submit' value='Eliminar Usuario'><br>
+        </form>";
+        echo"<h3>Eliminar Asignatura: </h3>
+        <form action='admin.php' method='post'>
+          Asignatura:
+          <select name='subjectSelected'>
+            <option value=''></option>";
+              $asignaturas = $controller->getAllSubjects();
+              foreach ($asignaturas as $asignatura){
+                echo "<option value=".$asignatura->getPK().">".$asignatura->getNombre()."</option>";
+
+              }
+          echo "</select> <br>
+          <input type='submit' name='submit' value='Eliminar Asignatura'><br>
+        </form>";
+        echo"<h3>Eliminar Nota: </h3>
+        <form action='admin.php' method='post'>
+          Alumno:
+          <select name='alumnSelected'>
+            <option value=''></option>";
+              $resultado = $controller->setSelect();
+              foreach ($resultado as $alumno){
+                echo "<option value=".$alumno->getDni().">".$alumno->getLastName()."</option>";
+              }
+
+        echo "</select> <br>
+          Asignatura:
+          <select name='subjectSelected'>
+            <option value=''></option>";
+              $asignaturas = $controller->getAllSubjects();
+              foreach ($asignaturas as $asignatura){
+                echo "<option value=".$asignatura->getPK().">".$asignatura->getNombre()."</option>";
+
+              }
+          echo "</select> <br>
+          <input type='submit' name='submit' value='Eliminar Nota'><br>
+        </form>";
+        echo"<h3>Mostrar Notas: </h3>
+        <form action='admin.php' method='post'>
+          Usuario:
+          <select name='alumnSelected'>
+            <option value=''></option>";
+              $resultado = $controller->setSelect();
+              foreach ($resultado as $alumno){
+                echo "<option value=".$alumno->getDni().">".$alumno->getLastName()."</option>";
+              }
+
+        echo "</select> <br>
+          <input type='submit' name='submit' value='Mostrar Notas'><br>
+        </form> <br>";
+
+        echo"<form action='admin.php' method='post'>
+          <input type='submit' name='submit' value='Cerrar Sesion'><br>
+        </form>";
+
       ?>
-      <p><?php  echo isset($_GET['message'])? $_GET['message'] : '' ?></p>
+      <p class='message'><?php  echo isset($_GET['message'])? $_GET['message'] : '' ?></p>
 
 
   </body>

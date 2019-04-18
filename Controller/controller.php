@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("../DAO/NotasDAO.php");
 
 class Controller{
@@ -22,6 +23,11 @@ class Controller{
         $this->notasDAO->redirect($page, "Usuario no encontrado");
 
       }else{
+        if($page == 'user'){
+
+          $_SESSION['dni']=$this->dni;
+
+        }
         $this->notasDAO->redirect($page, '');
 
       }
@@ -75,7 +81,7 @@ class Controller{
       $this->notasDAO->redirect("admin","Error borrando el alumno");
 
     }else{
-      $this->notasDAO->redirect("admin","Alumno borrando correctamente");
+      $this->notasDAO->redirect("admin","Alumno borrado correctamente");
     }
   }
 
@@ -101,6 +107,17 @@ class Controller{
 
   }
 
+  public function deleteSubject($asignatura){
+    $delete = $this->notasDAO->deleteSubject($asignatura);
+
+    if($delete == false){
+      $this->notasDAO->redirect("admin","Error borrando el alumnola asignatura");
+
+    }else{
+      $this->notasDAO->redirect("admin","Asignatura borrada correctamente");
+    }
+  }
+
   public function getSubject($alumno){
     return $this->notasDAO->getSubject($alumno);
 
@@ -122,10 +139,34 @@ class Controller{
 
   }
 
+  public function updateGrade($alumno, $asignatura, $nota){
+    $update = $this->notasDAO->updateGrade($alumno, $asignatura, $nota);
 
+    if($update == false){
+      $this->notasDAO->redirect("admin", "Error al modificar la nota, el alumno no esta matriculado a esa asignatura");
+
+    }else{
+      $this->notasDAO->redirect("admin", "Nota modificada correctamente");
+    }
+  }
+
+  public function deleteGrade($alumno, $asignatura){
+    $delete = $this->notasDAO->deleteGrade($alumno, $asignatura);
+
+    if($delete == false){
+      $this->notasDAO->redirect("admin", "Error al eliminar la nota, el alumno no esta matriculado a esa asignatura");
+
+    }else{
+      $this->notasDAO->redirect("admin", "Nota eliminada correctamente");
+    }
+  }
 
   public function setSelect(){
     return $this->notasDAO->getAllUsers();
+  }
+
+  public function disconect(){
+    $this->notasDAO->redirect("index","");
   }
 
 
