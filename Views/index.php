@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body id="loginBody">
-    <div class="container">
+    <div id="loginContainer" class="container">
       <div class="form-login">
         <form action="index.php" method="post">
           <div class="row">

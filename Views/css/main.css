@@ -6,7 +6,7 @@ th, td {
   padding: 5px;
   text-align: left;
 }
-.container{
+#loginContainer{
   width:25%;
   padding: 25px;
 }
@@ -14,8 +14,4 @@ th, td {
 #submit{
   margin-top: 10px;
   width:100%;
-}
-
-.row{
-  margin-bottom: 2px;
 }
