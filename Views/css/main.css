@@ -6,3 +6,16 @@ th, td {
   padding: 5px;
   text-align: left;
 }
+.container{
+  width:25%;
+  padding: 25px;
+}
+
+#submit{
+  margin-top: 10px;
+  width:100%;
+}
+
+.row{
+  margin-bottom: 2px;
+}
