@@ -255,6 +255,21 @@ class NotasDAO{
       return true;
     }
   }
+
+  function showAllAlumnosAndGrades(){
+    $conection = new DBConnection();
+    $query = "select usuario.apellido, asignatura.nombre, nota.nota from nota
+                  inner join usuario on nota.alumno = usuario.dni inner join asignatura on nota.asignatura = asignatura.identificador";
+    $conection->executeQuery($query);
+
+    foreach ($conection->getRows() as $user) {
+      $nota = new Nota($user['apellido'],$user['nombre'],$user['nota']);
+      $allUsers[] = $nota;
+    }
+    
+    $conection->disconect();
+    return $allUsers;
+  }
 }
 
 ?>

@@ -169,7 +169,9 @@ class Controller{
     $this->notasDAO->redirect("index","");
   }
 
-
+  public function showAllAlumnosAndGrades(){
+    return $this->notasDAO->showAllAlumnosAndGrades();  
+  }
   //echo var_dump($_POST);
 
 
